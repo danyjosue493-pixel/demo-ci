@@ -2,36 +2,37 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven3'
-        jdk 'JDK21'
+        jdk 'jdk-17'       // Debe coincidir con Global Tool Configuration
+        maven 'maven-3.9'  // Debe coincidir con Global Tool Configuration
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/aaronvz/demo-ci'
+                git branch: 'main', url: 'https://github.com/danyjosue493-pixel/demo-ci.git'
             }
         }
 
         stage('Build') {
             steps {
-                sh 'mvn clean package'
+                bat 'mvn clean compile'
             }
         }
 
         stage('Test') {
             steps {
-                sh 'mvn test'
+                bat 'mvn test'
             }
         }
     }
 
     post {
         success {
-            echo 'Build y pruebas pasaron con éxito'
+            echo 'Pipeline ejecutado exitosamente.'
         }
         failure {
-            echo 'Falló el pipeline'
+            echo 'El pipeline falló.'
         }
     }
 }
+
